@@ -46,6 +46,7 @@ body {
 
 </style>
 <body>
+<input type="file" accept="video/*" id="videoBtn" capture="camera">
 <div id="wrapper"> 
 <video id="video"></video>
 <canvas id="canvas"></canvas>
@@ -63,6 +64,8 @@ var hasGetUserMedia = function() {
     return (navigator.getUserMedia || navigator.webkitGetUserMedia ||
         navigator.mozGetUserMedia || navigator.msGetUserMedia);
 }
+
+var st
  
 //エラー
 var onFailSoHard = function(e) {
@@ -75,13 +78,17 @@ if (hasGetUserMedia()) {
     alert("未対応ブラウザです。");
 }
 
+
+
 window.URL = window.URL || window.webkitURL;
 navigator.getUserMedia  = navigator.getUserMedia || navigator.webkitGetUserMedia ||
                           navigator.mozGetUserMedia || navigator.msGetUserMedia;
-navigator.getUserMedia({video: true}, function(stream) {
-  video.src = window.URL.createObjectURL(stream);
-  localMediaStream = stream;
-}, onFailSoHard);
+if(hasGetUserMedia()){
+	navigator.getUserMedia({video: true}, function(stream) {
+	  video.src = window.URL.createObjectURL(stream);
+	  localMediaStream = stream;
+	}, onFailSoHard);
+} 
 //ボタンイベント
 
 var stopBtn = document.getElementById('stop');
