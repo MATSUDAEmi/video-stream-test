@@ -74,7 +74,7 @@ if (hasGetUserMedia()) {
 } else {
     alert("未対応ブラウザです。");
 }
- 
+
 window.URL = window.URL || window.webkitURL;
 navigator.getUserMedia  = navigator.getUserMedia || navigator.webkitGetUserMedia ||
                           navigator.mozGetUserMedia || navigator.msGetUserMedia;
@@ -86,7 +86,7 @@ navigator.getUserMedia({video: true}, function(stream) {
 
 var stopBtn = document.getElementById('stop');
 stopBtn.addEventListener('click', function(e){
-	localMediaStream.stop();
+	localMediaStream = null;
 })
 
 
