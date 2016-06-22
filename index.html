@@ -10,6 +10,8 @@
 	width: 100vw;
 	height: 100vh;
 }*/
+
+
 * {
   margin: 0;
   padding: 0;
@@ -20,19 +22,34 @@ body {
   background: #FFFFFF;
   font: 30px sans-serif;
 }
+
+#wrapper, #video, #canvas {
+	width: 100vw;
+	height: 100vh;
+}
+#wrapper {
+	position: relative;
+}
+#video, #canvas {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+#stop {
+	position: absolute;
+	bottom: 20px;
+	left: 20px;
+}
+
+
 </style>
 <body>
-<video id="video" autoplay width="320" height="240"></video><br />
 <div id="wrapper"> 
-    <button id="capture">capture</button>
-    <button id="stop">stop</button>
-</div>
-<br />
-<div id="capture_images" style="visibility:hidden">
-画像<br />
-<img id="img" src="" width="320" height="240" /><br />
-Canvas<br />
-<canvas id="canvas" width="320" height="240" ></canvas><br />
+<video id="video"></video>
+<canvas id="canvas"></canvas>
+<button id="stop">stop</button>
 </div>
 
 <script>
@@ -52,14 +69,6 @@ var onFailSoHard = function(e) {
     console.log('エラー!', e);
 };
  
-//カメラ画像キャプチャ
-var snapshot = function() {
-    if (localMediaStream) {
-        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-        document.getElementById('img').src = canvas.toDataURL('image/png');
-    }
-}
- 
 if (hasGetUserMedia()) {
     console.log("カメラ OK");
 } else {
@@ -74,11 +83,21 @@ navigator.getUserMedia({video: true}, function(stream) {
   localMediaStream = stream;
 }, onFailSoHard);
 //ボタンイベント
-var captureBtn = document.getElementById('capture');
-captureBtn.addEventListener('click', function(e){
-	snapshot();
-  document.getElementById('capture_images').style.visibility = "visible";
+
+var stopBtn = document.getElementById('stop');
+stopBtn.addEventListener('click', function(e){
+	localMediaStream.stop();
 })
+
+
+
+var ctx = canvas.getContext('2d');
+
+// 円の描画
+ctx.beginPath();
+ctx.arc(100, 100, 20, 0, 2*Math.PI, false);
+ctx.fillStyle = '#D0A869';
+ctx.fill();
     
 	</script>
 </body>
